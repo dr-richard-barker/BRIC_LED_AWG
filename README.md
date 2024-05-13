@@ -1,4 +1,4 @@
-![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/50f65a23-9c05-4d8a-8b2b-54af8942de93)# BRIC_LED_AWG
+# BRIC_LED_AWG
 BRIC_LED_AWG
 
 
