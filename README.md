@@ -113,7 +113,7 @@ Random selectino of mitochochonrial genes
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/45e4a787-d89a-4d10-8657-fe5f8a24f717)
 
 
-**3. Heatmap**
+# **3. Heatmap**
 
  # hierarchical clustering tree
  x <- readData.out$data
@@ -150,7 +150,7 @@ Random selectino of mitochochonrial genes
 
  heatmapPlotly() # interactive heatmap using Plotly 
  
-**4. K-means clustering**
+# **4. K-means clustering**
  input_nGenesKNN <- 2000	#Number of genes fro k-Means
  input_nClusters <- 4	#Number of clusters 
  maxGeneClustering = 12000
@@ -166,7 +166,7 @@ Random selectino of mitochochonrial genes
 
  ![heatmap ER cluster](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/heatmap_zoom%20(ER_cluster).png "heatmap ER cluster") 
 
-**#Read gene sets for enrichment analysis**
+# **#Read gene sets for enrichment analysis**
  sqlite  <- dbDriver('SQLite')
  input_selectGO3 <- 'GOBP'	#Gene set category
  input_minSetSize <- 5	#Min gene set size
@@ -183,7 +183,7 @@ Random selectino of mitochochonrial genes
  input_colorGenes <- TRUE	#Color genes in t-SNE plot? 
  tSNEgenePlot()  #Plot genes using t-SNE 
 
-**5. PCA and beyond**
+# **5. PCA and beyond**
 
  input_selectFactors <- 'Treatment'	#Factor coded by color
  input_selectFactors2 <- 'Treatment'	#Factor coded by shape
@@ -198,7 +198,7 @@ Random selectino of mitochochonrial genes
  
  tSNEplot()  
 
-**#Read gene sets for pathway analysis using PGSEA on principal components**
+# **Read gene sets for pathway analysis using PGSEA on principal components**
  input_selectGO6 <- 'All'	#Gene set category 
  GeneSets.out <-readGeneSets( geneSetFile,
     convertedData.out, input_selectGO6,input_selectOrg,
@@ -206,7 +206,7 @@ Random selectino of mitochochonrial genes
  PCApathway() # Run PGSEA analysis 
  cat( PCA2factor() )   #The correlation between PCs with factors 
  
-**6. DEG1**
+# **6. DEG1**
  input_CountsDEGMethod <- 3	#DESeq2= 3
  input_limmaPval <- 0.1	#FDR cutoff
  input_limmaFC <- 2	#Fold-change cutoff
@@ -228,7 +228,7 @@ Random selectino of mitochochonrial genes
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/56e7f5d2-3d02-4dbf-9415-2c1f53a8fb4f)
 
 
-**7. DEG2**
+# **7. DEG2**
  input_selectContrast <- 'Flight-Ground'	#Selected comparisons 
  selectedHeatmap.data.out <- selectedHeatmap.data()
  selectedHeatmap()   # heatmap for DEGs in selected comparison
@@ -241,13 +241,13 @@ Random selectino of mitochochonrial genes
  
  input_selectGO2 <- 'GOBP'	#Gene set category 
  geneListData.out <- geneListData()  
- volcanoPlot()  
+**volcanoPlot()**
   ![volcano_plot](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/volcano_plot.png "volcano_plot")
   
-  scatterPlot()  
+**scatterPlot()**
    ![scatter_plot](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/scatter_plot.png "scatter_plot")
    
-  MAplot()  
+**MAplot()**
    ![ma_plot](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/ma_plot.png "ma_plot")
   geneListGOTable.out <- geneListGOTable()  
 
@@ -264,7 +264,7 @@ Random selectino of mitochochonrial genes
  ![defence cluster](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/enrichemnt_botton_cluser_defensecemetabolism.png "defence cluster")
   
  
-**Enrichment analysis using STRING**
+**Enrichment analysis using (STRING IS NOT INCLUDED)**
 
   STRINGdb_geneList.out <- STRINGdb_geneList() #convert gene lists
  input_STRINGdbGO <- 'Process'	#'Process', 'Component', 'Function', 'KEGG', 'Pfam', 'InterPro' 
