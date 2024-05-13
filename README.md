@@ -264,7 +264,7 @@ Random selectino of mitochochonrial genes
  ![defence cluster](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/enrichemnt_botton_cluser_defensecemetabolism.png "defence cluster")
   
  
-**Enrichment analysis using (STRING IS NOT INCLUDED)**
+**Enrichment analysis using (STRING and metascape protein interaction networks analysis IS NOT INCLUDED)**
 
   STRINGdb_geneList.out <- STRINGdb_geneList() #convert gene lists
  input_STRINGdbGO <- 'Process'	#'Process', 'Component', 'Function', 'KEGG', 'Pfam', 'InterPro' 
@@ -280,9 +280,6 @@ Generating interactive PPI
  write(stringDB_network_link(), 'PPI_results.html') # write results to html file 
  browseURL('PPI_results.html') # open in browser 
 
-![BRIC-LED_shoots_RNAseq_FLvsGC_metabolism](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/BRIC-LED_shoots_RNAseq_FLvsGC_metabolism.png "BRIC-LED_shoots_RNAseq_FLvsGC_metabolism")
-
-
 **8. Pathway analysis**
  input_selectContrast1 <- 'Flight-Ground'	#select Comparison 
  #input_selectContrast1 = limma.out$comparisons[3] # manually set
@@ -291,6 +288,11 @@ Generating interactive PPI
  input_minSetSize <- 5	#Min size for gene set
  input_maxSetSize <- 2000	#Max size for gene set 
 
+# Down_regulated
+![enrichment_barplot_down_regulated](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/enrichment_barplot_down_regulated.png "enrichment_barplot_down_regulated")
+
+# Up_regulated
+![enrichment_barplot_up_regulated](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/enrichment_barplo_(Up_regulated)t.png "enrichment_barplot_up_regulated")
 
  
  # Read pathway data again 
@@ -324,11 +326,11 @@ Generating interactive PPI
   enrichmentNetworkPlotly(pathwayListData.out) 
    PGSEAplot() # pathway analysis using PGSEA 
 
-# Down_regulated
-![enrichment_barplot_down_regulated](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/enrichment_barplot_down_regulated.png "enrichment_barplot_down_regulated")
 
-# Up_regulated
-![enrichment_barplot_up_regulated](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/enrichment_barplo_(Up_regulated)t.png "enrichment_barplot_up_regulated")
+![BRIC-LED_shoots_RNAseq_FLvsGC_metabolism](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/BRIC-LED_shoots_RNAseq_FLvsGC_metabolism.png "BRIC-LED_shoots_RNAseq_FLvsGC_metabolism")
+
+
+
 
 **9. Chromosome**
  input_selectContrast2 <- 'Flight-Ground'	#select Comparison 
@@ -480,9 +482,9 @@ Black Cluster
 **Pink Cluster**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
-ink Cluster
+Pink Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/696e9cbc-5d31-4da0-9856-640c69d8e8d2)
-ink Cluster
+Pink Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/69b4a020-647a-4ee9-a73e-2f18b7202a12)
 
 ---
