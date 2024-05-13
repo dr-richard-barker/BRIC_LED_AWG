@@ -104,14 +104,121 @@ We are using the downloaded gene expression file where gene IDs has been convert
  input_selectOrg ="BestMatch" 
  input_geneSearch <- 'SNCA;Robo3;GAPDH'	#Gene ID for searching 
  genePlot()  
- input_useSD <- 'FALSE'	#Use standard deviation instead of standard error in error bar? 
+ input_useSD <- 'FALSE'	 
  geneBarPlotError()       
 
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/19de2300-fb7b-42fe-92ba-29b4405d2f15)
 
-Random selectino of mitochochonrial genes
+A random selection of mitochondrial genes
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/45e4a787-d89a-4d10-8657-fe5f8a24f717)
 
+Detected microRNA's
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/9595e25c-4490-49ed-8eba-85fde5c985fd)
+
+**mir163** (source: https://www.mirbase.org/hairpin/MI0000196)
+
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/025b8a91-d9b8-4741-b261-62e5d4d54eca)
+11 papers mentioning ath-MIR163
+Open access articles that are associated with the species Arabidopsis thaliana and mention the gene name MIR163.
+_"Defencese, Hawaian shirt and cytokinin"_
+
+"miR163 and its targets act in concert to modulate defense responses against bacterial pathogen in A. thaliana." (Ref https://pubmed.ncbi.nlm.nih.gov/28401908/)
+
+See paper: https://pubmed.ncbi.nlm.nih.gov/29244865/
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/8874a121-c57d-400d-8d8b-25668212b376)
+
+**Athamapp can be used to look for miRNA targets**
+http://www.athamap.de/miRNA_ident.php
+
+**All mir targets mapped. **
+
+![genemap](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/064b85b0-66b5-42f3-9782-a1d61b80b7f1)
+
+**Target gene search parameter:**
+Upstream region:	0
+Downstream region:	1000
+Show only trans targets psRNATarget score <=  2.5
+Relative microRNA orientation: -/+
+Sort by: Gene
+Total number of gene IDs detected: 18
+Number of predicted small RNA-regulated genes (italicized): 8
+
+Target gene	MicroRNA	Family	Position	Relative
+orientation	Relative
+distance	psRNATarget
+score
+At1g15125.1	MIR163	MIR163	5204954	-	334	2.0
+At1g15900.1	MIR163	MIR163	5465300	-	950	2.0
+At1g35990.1	MIR163	MIR163	13416034	-	247	2.5
+At1g54990.1	MIR163	MIR163	20515213	-	27	2.5
+At1g66690.1	MIR163	MIR163	24874064	-	449	2.0
+At1g66700.1	MIR163	MIR163	24877969	-	452	2.0
+At1g66720.1	MIR163	MIR163	24885267	-	424	2.5
+At2g20580.1	MIR163	MIR163	8866726	+	657	1.5
+At2g25570.1	MIR163	MIR163	10894492	+	507	2.5
+At2g36070.1	MIR163	MIR163	15154545	+	665	2.0
+At3g44840.1	MIR163	MIR163	16384341	-	403	2.0
+At4g05635.1	MIR163	MIR163	2995469	-	45	2.5
+At4g28470.1	MIR163	MIR163	14071893	+	656	2.5
+At5g15805.1	MIR163	MIR163	5158160	-	518	2.5
+At5g15810.1	MIR163	MIR163	5158160	-	359	2.5
+At5g35630.1	MIR163	MIR163	13847942	-	283	2.5
+At5g38100.1	MIR163	MIR163	15217856	-	559	1.5
+At5g61250.1	MIR163	MIR163	24651498	+	533	2.5
+
+
+![mir163 targets](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/ef2e2121-7cf9-47eb-ae9f-19a731452ca7)
+
+https://knetminer.com/beta/knetspace/network/910ae6a2-3ce9-4887-9039-c6ffd04a98eb
+
+
+**mir167D**(Souce: https://www.mirbase.org/hairpin/MI0000975)
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2e58314a-8cba-422b-b8f0-d5778ce718fe)
+_"Auxin, innate immune system and starvation stress response." _
+
+**Target gene search parameter:**
+Upstream region:	0
+Downstream region:	1000
+Show only trans targets psRNATarget score <=  2.5
+Relative microRNA orientation: -/+
+Sort by: Gene
+Total number of gene IDs detected: 2
+Number of predicted small RNA-regulated genes (italicized): 2
+
+Target gene	MicroRNA	Family	Position	Relative
+orientation	Relative
+distance	psRNATarget
+score
+At3g04765.1	MIR167D	MIR167	1306638	-	149	1.5
+At3g04765.1	MIR167D	MIR167	1306756	+	31	1.5
+At3g22886.1	MIR167D	MIR167	8108097	+	69	0.0
+At3g22886.1	MIR167D	MIR167	8108176	-	148	2.0
+
+At3g22886 is mir167a.
+At3g04765 is mir167c.
+
+**mir824A**
+Involved in flowering time and stomatal development. 
+Source: https://bar.utoronto.ca/thalemine/report.do?id=5366079
+
+**Target gene search parameter:**
+Upstream region:0
+Downstream region: 1000
+Show only trans targets psRNATarget score <= 2.5
+Relative microRNA orientation: -/+
+Sort by: Gene
+Total number of gene IDs detected: 2
+Number of predicted small RNA-regulated genes (italicized): 1
+
+Target gene	MicroRNA	Family	Position	Relative
+orientation	Relative
+distance	psRNATarget
+score
+At3g12460.1	MIR824	MIR824	3954713	+	717	2.5
+At3g44400.1	MIR824	MIR824	16060075	-	580	2.5
+
+AT3G44400 = 	Disease resistance protein (TIR-NBS-LRR class) family
+At3g12460 = Polynucleotidyl transferase, ribonuclease H-like superfamily protein
 
 # **3. Heatmap**
 
