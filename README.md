@@ -148,7 +148,6 @@ We are using the downloaded gene expression file where gene IDs has been convert
     convertedData.out, input_selectGO3,input_selectOrg,
     c(input_minSetSize, input_maxSetSize)  )  
  
- # Alternatively, users can use their own GMT files by
  #GeneSets.out <- readGMTRobust('somefile.GMT')  
  results <- KmeansGO()  #Enrichment analysis for k-Means clusters	
  results$adj.Pval <- format( results$adj.Pval,digits=3 )
