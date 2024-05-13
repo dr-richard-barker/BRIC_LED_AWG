@@ -379,7 +379,7 @@ Generating interactive PPI
 
 ---
 
-# now analyse each of the cluster with GO biological processes 
+# Now analyse each of the cluster with GO biological processes 
  input_selectGO5 <- 'GOBP'	#Gene set category 
 
 ---
@@ -404,10 +404,10 @@ input_selectGO5 <- 'GOBP'	#Gene set category and plot
 **Turquoise cluster (273)**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
-
- ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/1f402517-2520-4b5c-bfcd-37f4a9ad11f4)
-
- ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/d86f5982-8d8c-4c02-8bbd-0f4b848c2764)
+Turquoise cluster
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/1f402517-2520-4b5c-bfcd-37f4a9ad11f4)
+Turquoise cluster
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/d86f5982-8d8c-4c02-8bbd-0f4b848c2764)
 
 
 ---
@@ -416,9 +416,9 @@ input_selectGO5 <- 'GOBP'	#Gene set category and plot
 **Blue Cluster (173)**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
-
+Blue Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/77c3b2ac-1058-4253-8782-6d5cf9350313)
-
+Blue Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/7a9a8c80-f217-49fb-8b31-08903c930aa6)
 
 ---
@@ -427,10 +427,9 @@ input_selectGO5 <- 'GOBP'	#Gene set category and plot
 **Brown Cluster (96)**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
-
+Brown Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/54144c7d-3045-43b5-9494-9d9b5b064a6d)
-
-
+Brown Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/5fc748a3-8574-4503-85e3-64b1def2e1ae)
 
 ---
@@ -439,9 +438,9 @@ input_selectGO5 <- 'GOBP'	#Gene set category and plot
 **Yellow Cluster (91)**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
-
+Yellow Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/5e9e21e7-f8e9-4cae-80d1-f0bb5bd13975)
-
+Yellow Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/11566678-1fd9-4b9a-98c2-83ba21ffc618)
 
 ---
@@ -449,8 +448,9 @@ input_selectGO5 <- 'GOBP'	#Gene set category and plot
 
 **Green Cluster (63)**
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/543de251-0c67-45c5-8286-e497603ba2ae)
-
+Green Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/57fa511c-59e4-4cc8-bbb4-f07252644808)
+Green Cluster
 
 ---
 
@@ -458,9 +458,9 @@ input_selectGO5 <- 'GOBP'	#Gene set category and plot
 **Red Cluster (59)**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
-
+Red Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/cdec91a9-f679-40fe-8440-f9450f3e17f9)
-
+Red Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/6714e93e-2adf-4e36-9d58-fdf5f88ba139)
 
 ---
@@ -469,9 +469,9 @@ input_selectGO5 <- 'GOBP'	#Gene set category and plot
 **Black Cluster (58)**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
-
+Black Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/e56c8237-22b3-4372-96b9-eb35547cce33)
-
+Black Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/fbfdac31-fbdd-457d-852e-2fc2594ed40c)
 
 ---
@@ -480,9 +480,9 @@ input_selectGO5 <- 'GOBP'	#Gene set category and plot
 **Pink Cluster**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
-
+ink Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/696e9cbc-5d31-4da0-9856-640c69d8e8d2)
-
+ink Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/69b4a020-647a-4ee9-a73e-2f18b7202a12)
 
 ---
@@ -491,9 +491,9 @@ input_selectGO5 <- 'GOBP'	#Gene set category and plot
 **Magenta Cluster (52)**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
-
+Magenta Cluster 
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/eeace972-e12a-4b35-8d28-372f3ffebe48)
-
+Magenta Cluster 
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/a7e0c359-f2f6-4182-8b70-8895bf03ab41)
 
 ---
@@ -502,19 +502,19 @@ input_selectGO5 <- 'GOBP'	#Gene set category and plot
 **Purple Cluster (50)**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
-
+Purple Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/f45c06dc-7ed3-4d98-90f7-b0e6d11b10b1)
-
+Purple Cluster
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/6fe0db9f-cb4b-4f78-a7c2-5cc5c52db3e4)
 
 ---
 
-**Greenyellow (24 genes)**
+**Green/yellow (24 genes)**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
-
+Green/yellow 
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/86691381-17db-4076-af4d-63f9b3602705)
-
+Green/yellow 
 ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/b2d09632-7895-45f5-992a-9ea5a6f0b7d6)
 
 ---
