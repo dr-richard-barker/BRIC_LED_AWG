@@ -65,6 +65,8 @@ We are using the downloaded gene expression file where gene IDs has been convert
  barplot( colSums(x)/1e6, 
 		col=col1,las=3, main="Total read counts (millions)")  
  readCountsBias()  # detecting bias in sequencing depth 
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/37abe84a-c194-4ad7-bd77-cda27751750f)
+
 
  # Box plot 
  x = readData.out$data 
@@ -82,6 +84,17 @@ We are using the downloaded gene expression file where gene IDs has been convert
  # Scatter plot of the first two samples 
  plot(x[,1:2],xlab=colnames(x)[1],ylab=colnames(x)[2], 
     main='Scatter plot of first two samples') 
+    ![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/ecf4e0d8-5adb-4da2-b7ce-025c8c994352)
+
+# Dispersion plot 
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/197938c9-c276-42e8-8ca6-f911bad1bf6f)
+
+
+# QC PLots 
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/bb5a3516-6ded-41ff-a6a5-5738114e0b28)
+
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/d16cdb3a-ed81-4089-b27d-5e6f6ea0cb2b)
+
 
  #### plot gene or gene family
  input_selectOrg ="BestMatch" 
@@ -89,6 +102,12 @@ We are using the downloaded gene expression file where gene IDs has been convert
  genePlot()  
  input_useSD <- 'FALSE'	#Use standard deviation instead of standard error in error bar? 
  geneBarPlotError()       
+
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/19de2300-fb7b-42fe-92ba-29b4405d2f15)
+
+Random selectino of mitochochonrial genes
+![image](https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/45e4a787-d89a-4d10-8657-fe5f8a24f717)
+
 
 **3. Heatmap**
 
