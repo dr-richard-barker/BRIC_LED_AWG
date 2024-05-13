@@ -91,6 +91,7 @@ We are using the downloaded gene expression file where gene IDs has been convert
  geneBarPlotError()       
 
 **3. Heatmap**
+
  # hierarchical clustering tree
  x <- readData.out$data
  maxGene <- apply(x,1,max)
@@ -157,6 +158,7 @@ We are using the downloaded gene expression file where gene IDs has been convert
  tSNEgenePlot()  #Plot genes using t-SNE 
 
 **5. PCA and beyond**
+
  input_selectFactors <- 'Treatment'	#Factor coded by color
  input_selectFactors2 <- 'Treatment'	#Factor coded by shape
  input_tsneSeed2 <- 0	#Random seed for t-SNE 
