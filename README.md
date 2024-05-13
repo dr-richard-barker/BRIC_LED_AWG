@@ -208,7 +208,6 @@ We are using the downloaded gene expression file where gene IDs has been convert
  selectedHeatmap()   # heatmap for DEGs in selected comparison
 
 
-
  # Save gene lists and data into files
  write.csv( selectedHeatmap.data()$genes, 'heatmap.data.csv') 
  write.csv(DEG.data(),'DEG.data.csv' )
@@ -227,8 +226,6 @@ We are using the downloaded gene expression file where gene IDs has been convert
   geneListGOTable.out <- geneListGOTable()  
 
 
-
-  
  
  # Read pathway data again 
  GeneSets.out <-readGeneSets( geneSetFile,
@@ -238,14 +235,9 @@ We are using the downloaded gene expression file where gene IDs has been convert
  results <- geneListGO()  #Enrichment analysis
  results$adj.Pval <- format( results$adj.Pval,digits=3 )
  kable( results, row.names=FALSE) 
-STRING-db API access. We need to find the taxonomy id of your species, this used by STRING. First we try to guess the ID based on iDEP's database. Users can also skip this step and assign NCBI taxonomy id directly by findTaxonomyID.out = 10090 # mouse 10090, human 9606 etc.
 
  ![defence cluster](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/enrichemnt_botton_cluser_defensecemetabolism.png "defence cluster")
   
- STRING10_species = read.csv(STRING10_speciesFile)  
- ix = grep('Mus musculus', STRING10_species$official_name )
- findTaxonomyID.out <- STRING10_species[ix,1] # find taxonomyID
- findTaxonomyID.out  
  
 **Enrichment analysis using STRING**
 
@@ -263,7 +255,8 @@ Generating interactive PPI
  write(stringDB_network_link(), 'PPI_results.html') # write results to html file 
  browseURL('PPI_results.html') # open in browser 
 
-![BRIC-LED_shoots_RNAseq_FLvsGC_ER](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/ER_protein_processing.png "BRIC-LED_shoots_RNAseq_FLvsGC_ER")
+![BRIC-LED_shoots_RNAseq_FLvsGC_metabolism](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/BRIC-LED_shoots_RNAseq_FLvsGC_metabolism.png "BRIC-LED_shoots_RNAseq_FLvsGC_metabolism")
+
 
 **8. Pathway analysis**
  input_selectContrast1 <- 'Flight-Ground'	#select Comparison 
@@ -273,8 +266,6 @@ Generating interactive PPI
  input_minSetSize <- 5	#Min size for gene set
  input_maxSetSize <- 2000	#Max size for gene set 
 
-""
-![BRIC-LED_shoots_RNAseq_FLvsGC_metabolism](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/BRIC-LED_shoots_RNAseq_FLvsGC_metabolism.png "BRIC-LED_shoots_RNAseq_FLvsGC_metabolism")
 
  
  # Read pathway data again 
@@ -308,9 +299,10 @@ Generating interactive PPI
   enrichmentNetworkPlotly(pathwayListData.out) 
    PGSEAplot() # pathway analysis using PGSEA 
 
-
+# Down_regulated
 ![enrichment_barplot_down_regulated](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/enrichment_barplot_down_regulated.png "enrichment_barplot_down_regulated")
 
+# Up_regulated
 ![enrichment_barplot_up_regulated](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/enrichment_barplo_(Up_regulated)t.png "enrichment_barplot_up_regulated")
 
 **9. Chromosome**
@@ -327,10 +319,12 @@ Generating interactive PPI
  input_nGenesBiclust <- 1000	#Top genes for biclustering
  input_biclustMethod <- 'BCCC()'	#Method: 'BCCC', 'QUBIC', 'runibic' ... 
  biclustering.out = biclustering()  # run analysis
-
  input_selectBicluster <- 1	#select a cluster 
  biclustHeatmap()   # heatmap for selected cluster 
  input_selectGO4 <- 'GOBP'	#Gene set category 
+
+**ER cluster plotted using KEGG path view**
+![BRIC-LED_shoots_RNAseq_FLvsGC_ER](https://github.com/dr-richard-barker/BRIC_LED_AWG/blob/main/ER_protein_processing.png "BRIC-LED_shoots_RNAseq_FLvsGC_ER")
  
  # Read pathway data again 
  GeneSets.out <-readGeneSets( geneSetFile,
