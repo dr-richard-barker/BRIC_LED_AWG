@@ -54,14 +54,14 @@ if (file.exists('iDEP_core_functions.R')) {
 
 **Overview of iDEP Core Functions (`iDEP_core_functions.R`)**
 
-The `iDEP_core_functions.R` script is integral to the iDEP software, supporting various core functionalities. Here are key highlights:
+The `iDEP_core_functions.R` script is integral to the iDEP software, supporting various core functionalities that were installed in order to complete this analysis.&#x20;
+
+Here are key highlights:
 
 * **Data Preprocessing**: Functions for data normalization, filtering, and transformation.
 * **Analysis Modules**: Includes statistical analysis, clustering, and differential expression analysis.
 * **Visualization Tools**: Implements methods for generating plots and visual representations of the data.
 * **Integration Capabilities**: Facilitates interaction with external databases and resources for enriched analysis.
-
-This script is crucial for enabling the seamless operation and extensive analytical capabilities of iDEP.
 
 #### Reading Data
 
@@ -165,17 +165,19 @@ boxplot(x, las = 2, col = col1, ylab = 'Transformed Expression Levels', main = '
 
 ## Density plot
 
+To create a density plot, use:
+
 ```r
 densityPlot()
 ```
 
-To create a density plot, use:
+To customize plotting parameters, use:
 
 ```r
 par(parDefault)
 ```
 
-To customize plotting parameters, use:
+
 
 \
 
@@ -202,7 +204,7 @@ plot(x[,1:2], xlab=colnames(x)[1], ylab=colnames(x)[2], main='Scatter plot of fi
 
 ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/d16cdb3a-ed81-4089-b27d-5e6f6ea0cb2b)
 
-**plot gene or gene family**
+**Plot gene or gene family**
 
 #### Input Parameters
 
@@ -233,19 +235,29 @@ All mitochondrial genes and BAG6&#x20;
 
 "miR163 and its targets act in concert to modulate defense responses against bacterial pathogen in A. thaliana." (Ref https://pubmed.ncbi.nlm.nih.gov/28401908/).
 
-See paper: https://pubmed.ncbi.nlm.nih.gov/29244865/&#x20;
 
-<figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/8874a121-c57d-400d-8d8b-25668212b376" alt="" width="375"><figcaption></figcaption></figure>
+
+<figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/8874a121-c57d-400d-8d8b-25668212b376" alt="" width="375"><figcaption><p>Source: https://pubmed.ncbi.nlm.nih.gov/29244865/ </p></figcaption></figure>
 
 **Athamapp can be used to look for miRNA targets**&#x20;
 
 {% embed url="http://www.athamap.de/miRNA_ident.php" %}
 
-**\*\*All mir targets mapped on the chromomes\*\***
+**\*\*All mir targets mapped on the chromosomes\*\***
 
 ![genemap](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/064b85b0-66b5-42f3-9782-a1d61b80b7f1)
 
-**Target gene search parameter:** Upstream region: 0 Downstream region: 1000 Show only trans targets psRNATarget score <= 2.5 Relative microRNA orientation: -/+ Sort by: Gene Total number of gene IDs detected: 18 Number of predicted small RNA-regulated genes (italicized): 8
+**MIR163 Target Gene Search parameters**
+
+Upstream region: 0\
+Downstream region: 1000\
+Filter: Trans targets with psRNATarget score <= 2.5\
+MicroRNA orientation: -/+\
+Sort by: Gene\
+Total genes detected: 18\
+Predicted small RNA-regulated genes (italicized): 8
+
+\*\*Target gene search parameter
 
 **Target Gene MicroRNA Family Position Relative Orientation Relative Distance psRNATarget Score**
 
@@ -280,7 +292,20 @@ Related to: Auxin, innate immune system, and starvation stress response.
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2e58314a-8cba-422b-b8f0-d5778ce718fe" alt=""><figcaption></figcaption></figure>
 
-**Target gene search parameter:** Upstream region: 0 Downstream region: 1000 Show only trans targets psRNATarget score <= 2.5 Relative microRNA orientation: -/+ Sort by: Gene Total number of gene IDs detected: 2 Number of predicted small RNA-regulated genes (italicized): 2
+**mir167D Target gene search parameter:**&#x20;
+
+**Predicted Small RNA-Regulated Genes**
+
+* Number of predicted small RNA-regulated genes: _2_
+* Upstream region: 0
+* Downstream region: 1000
+* Total number of gene IDs detected: 2
+* Sort by: Gene
+* Relative microRNA orientation: -/+
+* Show only trans targets
+* psRNATarget score <= 2.5
+
+
 
 **Target gene MicroRNA Family Position Relative orientation Relative distance psRNATarget score** At3g04765.1 MIR167D MIR167 1306638 - 149 1.5 At3g04765.1 MIR167D MIR167 1306756 + 31 1.5 At3g22886.1 MIR167D MIR167 8108097 + 69 0.0 At3g22886.1 MIR167D MIR167 8108176 - 148 2.0
 
@@ -290,9 +315,23 @@ Related to: Auxin, innate immune system, and starvation stress response.
 
 **mir824A** Involved in flowering time and stomatal development.&#x20;
 
-Source: https://bar.utoronto.ca/thalemine/report.do?id=5366079
+**Source:** https://bar.utoronto.ca/thalemine/report.do?id=5366079
 
-**Target gene search parameter:** Upstream region:0 Downstream region: 1000 Show only trans targets psRNATarget score <= 2.5 Relative microRNA orientation: -/+ Sort by: Gene Total number of gene IDs detected: 2 Number of predicted small RNA-regulated genes (italicized): 1
+
+
+### microRNA Target search p**arameters**:
+
+* Upstream region: 0
+* Downstream region: 1000
+* Target type: Trans targets
+* psRNATarget score: ≤ 2.5
+* Relative microRNA orientation: -/+
+* Sort by: Gene
+
+**Results**:
+
+* **Total number of gene IDs detected**: 2
+* **Number of predicted small RNA-regulated genes (**_**italicized**_**)**: 1
 
 Target gene MicroRNA Family Position Relative orientation Relative distance psRNATarget score At3g12460.1 MIR824 MIR824 3954713 + 717 2.5 At3g44400.1 MIR824 MIR824 16060075 - 580 2.5
 
@@ -304,9 +343,17 @@ AT3G44400 = Disease resistance protein (TIR-NBS-LRR class) family At3g12460 = Po
 
 x <- readData.out$data maxGene <- apply(x,1,max)
 
-## remove bottom 25% lowly expressed genes, which inflate the PPC
+## remove bottom 25% low expressed genes (which inflate the PPC)
 
-x <- x\[which(maxGene > quantile(maxGene)\[1] ) ,] plot(as.dendrogram(hclust2( dist2(t(x)))), ylab="1 - Pearson C.C.", type = "rectangle") **#Correlation matrix** input\_labelPCC <- TRUE #Show correlation coefficient? correlationMatrix()
+### Correlation Matrix
+
+```r
+input_labelPCC <- TRUE # Show correlation coefficient?
+correlationMatrix()
+
+x <- x[which(maxGene > quantile(maxGene)[1]),]
+plot(as.dendrogram(hclust2(dist2(t(x)))), ylab="1 - Pearson C.C.", type = "rectangle")
+```
 
 ## Parameters for heatmap
 
