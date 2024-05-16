@@ -18,67 +18,177 @@ Factors matrix sourced from NASA Open Science Repository sample metadata. Counts
 
 
 
-knitr::opts\_chunk$set(echo = TRUE) knitr::opts\_chunk$set(fig.width=6, fig.height=5, fig.align = 'center')
+#### Setting up the Environment
 
-**1. Read data** First we set up the working directory to where the files are saved.
+First, ensure your working directory is set to where your files are saved. Change `<your-path>` to your specific directory.
 
-setwd('C:/Users/DRB/Downloads') # Needs to be changed to your drive
+```r
+setwd('C:/Users/DRB/Downloads') # Change to your drive
+```
 
-R packages and iDEP core Functions. Install all the function in the iDEP\_core\_functions.R file.
+#### File Paths
 
-if(file.exists('iDEP\_core\_functions.R')) source('iDEP\_core\_functions.R') else source('https://raw.githubusercontent.com/iDEP-SDSU/idep/master/shinyapps/idep/iDEP\_core\_functions.R')
+Define the paths to the necessary files.
 
-We are using the downloaded gene expression file where gene IDs has been converted to Ensembl gene IDs.
+```r
+inputFile <- 'Downloaded_Converted_Data.csv' # Expression matrix
+sampleInfoFile <- 'Downloaded_sampleInfoFile.csv' # Experimental design
+geneInfoFile <- 'Arabidopsis_thaliana__athaliana_eg_gene_GeneInfo.csv' # Gene info
+geneSetFile <- 'Arabidopsis thaliana__athaliana_eg_gene.db' # Pathway database (SQL/GMT format)
+STRING10_speciesFile <- 'https://raw.githubusercontent.com/iDEP-SDSU/idep/master/shinyapps/idep/STRING10_species.csv' # STRING species data
+```
 
-inputFile <- 'Downloaded\_Converted\_Data.csv' # Expression matrix sampleInfoFile <- 'Downloaded\_sampleInfoFile.csv' # Experiment design file geneInfoFile <- 'Arabidopsis\_thaliana\_\_athaliana\_eg\_gene\_GeneInfo.csv' #Gene symbols, location etc. geneSetFile <- 'Arabidopsis thaliana\_\_athaliana\_eg\_gene.db' # pathway database in SQL; can be GMT format STRING10\_speciesFile <- 'https://raw.githubusercontent.com/iDEP-SDSU/idep/master/shinyapps/idep/STRING10\_species.csv'
+#### Loading Required Functions
+
+Check if the `iDEP_core_functions.R` file exists locally. If not, load it from the provided URL.
+
+```r
+if (file.exists('iDEP_core_functions.R')) {
+    source('iDEP_core_functions.R')
+} else {
+    source('https://raw.githubusercontent.com/iDEP-SDSU/idep/master/shinyapps/idep/iDEP_core_functions.R')
+}
+```
+
+#### Installing Packages: Ensure all required packages from `iDEP_core_functions.R` are installed.
+
+**Overview of iDEP Core Functions (`iDEP_core_functions.R`)**
+
+The `iDEP_core_functions.R` script is integral to the iDEP software, supporting various core functionalities. Here are key highlights:
+
+* **Data Preprocessing**: Functions for data normalization, filtering, and transformation.
+* **Analysis Modules**: Includes statistical analysis, clustering, and differential expression analysis.
+* **Visualization Tools**: Implements methods for generating plots and visual representations of the data.
+* **Integration Capabilities**: Facilitates interaction with external databases and resources for enriched analysis.
+
+This script is crucial for enabling the seamless operation and extensive analytical capabilities of iDEP.
+
+#### Reading Data
+
+Set up chunk options for reproducibility and clarity.
+
+```r
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=6, fig.height=5, fig.align = 'center')
+```
+
+This script sets up the environment and reads data for further analysis.&#x20;
 
 ## Parameters for reading data
 
-input\_missingValue <- 'geneMedian' #Missing values imputation method input\_dataFileFormat <- 1 #1- read counts, 2 FKPM/RPKM or DNA microarray input\_minCounts <- 0.5 #Min counts input\_NminSamples <- 1 #Minimum number of samples input\_countsLogStart <- 4 #Pseudo count for log CPM input\_CountsTransform <- 1 #Methods for data transformation of counts. 1-EdgeR's logCPM 2-VST, 3-rlog
+````r
+```r
+# Load data
+readData.out <- readData(inputFile)
+library(knitr) # Install if needed for kable tables
+kable(head(readData.out$data)) # Display first few rows of data
 
-readData.out <- readData(inputFile) library(knitr) # install if needed. for showing tables with kable kable( head(readData.out$data) ) # show the first few rows of data readSampleInfo.out <- readSampleInfo(sampleInfoFile) kable( readSampleInfo.out )\
-input\_selectOrg ="NEW" input\_selectGO <- 'KEGG' #Gene set category input\_noIDConversion = TRUE\
-allGeneInfo.out <- geneInfo(geneInfoFile) converted.out = NULL convertedData.out <- convertedData() nGenesFilter()\
-convertedCounts.out <- convertedCounts() # converted counts, just for compatibility
+# Load sample information 
+readSampleInfo.out <- readSampleInfo(sampleInfoFile)
+kable(readSampleInfo.out) 
+
+# Input settings
+input_selectOrg = "NEW"
+input_selectGO = 'KEGG' # Gene set category
+input_noIDConversion = TRUE
+
+# Generate gene information
+allGeneInfo.out <- geneInfo(geneInfoFile)
+converted.out = NULL
+convertedData.out <- convertedData()
+
+# Filter genes
+nGenesFilter()
+
+# Convert counts (for compatibility)
+convertedCounts.out <- convertedCounts() 
+
+# Missing values imputation method
+input_missingValue <- 'geneMedian'
+
+# Data file format settings
+input_dataFileFormat <- 1 # 1- read counts, 2- FKPM/RPKM or DNA microarray
+input_minCounts <- 0.5 # Minimum counts
+input_NminSamples <- 1 # Minimum number of samples 
+
+# Transformation settings
+input_countsLogStart <- 4 # Pseudo count for log CPM 
+input_CountsTransform <- 1 # Methods for data transformation (1- EdgeR's logCPM, 2- VST, 3- rlog)
+````
 
 **2. Pre-process**
 
-**"32833 genes in 12 samples.**&#x20;
-
-**18108 genes passed filter, 18072 were converted to Ensembl gene IDs in our database.**&#x20;
-
-**The remaining 36 genes were kept in the data using original IDs."**
+**The remaining 36 genes retained their original IDs.** **From 18108 genes, 18072 were successfully converted to Ensembl gene IDs in our database.** \*\*Total genes: 32833 across 12 samples.
 
 ## Read counts per library
 
-parDefault = par() par(mar=c(12,4,2,2))
+```r
+# Save current graphical parameters
+parDefault <- par() 
+
+# Set new margin sizes
+par(mar = c(12, 4, 2, 2))
+```
 
 ## barplot of total read counts
 
-x <- readData.out$rawCounts groups = as.factor( detectGroups(colnames(x ) ) ) if(nlevels(groups)<=1 | nlevels(groups) >20 )\
-col1 = 'green' else col1 = rainbow(nlevels(groups))\[ groups ]
+````markdown
+```R
+# Plot total read counts in millions
+barplot(colSums(x) / 1e6, col = col1, las = 3, main = "Total Read Counts (Millions)")
 
-barplot( colSums(x)/1e6, col=col1,las=3, main="Total read counts (millions)")\
-readCountsBias() # detecting bias in sequencing depth&#x20;
+# Detect bias in sequencing depth
+readCountsBias()
+
+# Prepare data and groups
+x <- readData.out$rawCounts
+groups <- as.factor(detectGroups(colnames(x)))
+
+# Set colors based on the number of groups
+if (nlevels(groups) <= 1 | nlevels(groups) > 20) {
+  col1 <- 'green'
+} else {
+  col1 <- rainbow(nlevels(groups))[groups]
+}
+````
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/37abe84a-c194-4ad7-bd77-cda27751750f" alt=""><figcaption></figcaption></figure>
 
 ## Box plot
 
-x = readData.out$data boxplot(x, las = 2, col=col1, ylab='Transformed expression levels', main='Distribution of transformed data')&#x20;
+```r
+x <- readData$out$data
+boxplot(x, las = 2, col = col1, ylab = 'Transformed Expression Levels', main = 'Distribution of Transformed Data')
+```
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/0a75b313-ebb3-4f4c-bd31-78aeb8be3bbd" alt=""><figcaption></figcaption></figure>
 
 ## Density plot
 
-par(parDefault) densityPlot()\
+```r
+densityPlot()
+```
+
+To create a density plot, use:
+
+```r
+par(parDefault)
+```
+
+To customize plotting parameters, use:
+
+\
 
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/e5035351-5e93-46e0-b5e1-4bd5d1893749" alt=""><figcaption></figcaption></figure>
 
 ## Scatter plot of the first two samples
 
-plot(x\[,1:2],xlab=colnames(x)\[1],ylab=colnames(x)\[2], main='Scatter plot of first two samples')&#x20;
+Create a scatter plot for the first two samples:
+
+```R
+plot(x[,1:2], xlab=colnames(x)[1], ylab=colnames(x)[2], main='Scatter plot of first two samples')
+```
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/ecf4e0d8-5adb-4da2-b7ce-025c8c994352" alt=""><figcaption></figcaption></figure>
 
@@ -94,26 +204,34 @@ plot(x\[,1:2],xlab=colnames(x)\[1],ylab=colnames(x)\[2], main='Scatter plot of f
 
 **plot gene or gene family**
 
-input\_selectOrg ="BestMatch" input\_geneSearch <- 'SNCA;Robo3;GAPDH' #Gene ID for searching genePlot()\
-input\_useSD <- 'FALSE' geneBarPlotError()
+#### Input Parameters
+
+* **input\_selectOrg**: "BestMatch"
+* **input\_geneSearch**: 'ATHDSP22, BAG6, DOX1, DREB2B, HSP101, HSP23.6-MITO, HSP70, HSP70b, RPL23.1, RPS12C, TCH4, XTH15, XTH33'
+* **input\_useSD**: 'FALSE'
+
+#### Function Calls
+
+* `genePlot()`
+* `geneBarPlotError()`
 
 ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/19de2300-fb7b-42fe-92ba-29b4405d2f15)
 
-A random selection of mitochondrial genes&#x20;
+All mitochondrial genes and BAG6&#x20;
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/45e4a787-d89a-4d10-8657-fe5f8a24f717" alt=""><figcaption></figcaption></figure>
 
-We also detected 3 microRNA's involved in defencem,&#x20;
+### Three microRNA's were detected.
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/9595e25c-4490-49ed-8eba-85fde5c985fd" alt=""><figcaption></figcaption></figure>
 
 **mir163** (source: https://www.mirbase.org/hairpin/MI0000196)
 
-&#x20;11 papers mentioning ath-MIR163 Open access articles that are associated with the species Arabidopsis thaliana and mention the gene name MIR163. _"Defencese, Hawaian shirt and cytokinin"_
+11 papers mentioning ath-MIR163 are open access articles associated with the species _Arabidopsis thaliana_ that mention the gene name MIR163. "Defence, Hawaiian shirt, and cytokinin"
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/025b8a91-d9b8-4741-b261-62e5d4d54eca" alt=""><figcaption></figcaption></figure>
 
-"miR163 and its targets act in concert to modulate defense responses against bacterial pathogen in A. thaliana." (Ref https://pubmed.ncbi.nlm.nih.gov/28401908/)
+"miR163 and its targets act in concert to modulate defense responses against bacterial pathogen in A. thaliana." (Ref https://pubmed.ncbi.nlm.nih.gov/28401908/).
 
 See paper: https://pubmed.ncbi.nlm.nih.gov/29244865/&#x20;
 
@@ -123,13 +241,32 @@ See paper: https://pubmed.ncbi.nlm.nih.gov/29244865/&#x20;
 
 {% embed url="http://www.athamap.de/miRNA_ident.php" %}
 
-\*\*All mir targets mapped. \*\*
+**\*\*All mir targets mapped on the chromomes\*\***
 
 ![genemap](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/064b85b0-66b5-42f3-9782-a1d61b80b7f1)
 
 **Target gene search parameter:** Upstream region: 0 Downstream region: 1000 Show only trans targets psRNATarget score <= 2.5 Relative microRNA orientation: -/+ Sort by: Gene Total number of gene IDs detected: 18 Number of predicted small RNA-regulated genes (italicized): 8
 
-**Target gene MicroRNA Family Position Relative orientation Relative distance psRNATarget score** At1g15125.1 MIR163 MIR163 5204954 - 334 2.0 At1g15900.1 MIR163 MIR163 5465300 - 950 2.0 At1g35990.1 MIR163 MIR163 13416034 - 247 2.5 At1g54990.1 MIR163 MIR163 20515213 - 27 2.5 At1g66690.1 MIR163 MIR163 24874064 - 449 2.0 At1g66700.1 MIR163 MIR163 24877969 - 452 2.0 At1g66720.1 MIR163 MIR163 24885267 - 424 2.5 At2g20580.1 MIR163 MIR163 8866726 + 657 1.5 At2g25570.1 MIR163 MIR163 10894492 + 507 2.5 At2g36070.1 MIR163 MIR163 15154545 + 665 2.0 At3g44840.1 MIR163 MIR163 16384341 - 403 2.0 At4g05635.1 MIR163 MIR163 2995469 - 45 2.5 At4g28470.1 MIR163 MIR163 14071893 + 656 2.5 At5g15805.1 MIR163 MIR163 5158160 - 518 2.5 At5g15810.1 MIR163 MIR163 5158160 - 359 2.5 At5g35630.1 MIR163 MIR163 13847942 - 283 2.5 At5g38100.1 MIR163 MIR163 15217856 - 559 1.5 At5g61250.1 MIR163 MIR163 24651498 + 533 2.5
+**Target Gene MicroRNA Family Position Relative Orientation Relative Distance psRNATarget Score**
+
+* At1g15125.1 | MIR163 | MIR163 | 5204954 | - | 334 | 2.0
+* At1g15900.1 | MIR163 | MIR163 | 5465300 | - | 950 | 2.0
+* At1g35990.1 | MIR163 | MIR163 | 13416034 | - | 247 | 2.5
+* At1g54990.1 | MIR163 | MIR163 | 20515213 | - | 27 | 2.5
+* At1g66690.1 | MIR163 | MIR163 | 24874064 | - | 449 | 2.0
+* At1g66700.1 | MIR163 | MIR163 | 24877969 | - | 452 | 2.0
+* At1g66720.1 | MIR163 | MIR163 | 24885267 | - | 424 | 2.5
+* At2g20580.1 | MIR163 | MIR163 | 8866726 | + | 657 | 1.5
+* At2g25570.1 | MIR163 | MIR163 | 10894492 | + | 507 | 2.5
+* At2g36070.1 | MIR163 | MIR163 | 15154545 | + | 665 | 2.0
+* At3g44840.1 | MIR163 | MIR163 | 16384341 | - | 403 | 2.0
+* At4g05635.1 | MIR163 | MIR163 | 2995469 | - | 45 | 2.5
+* At4g28470.1 | MIR163 | MIR163 | 14071893 | + | 656 | 2.5
+* At5g15805.1 | MIR163 | MIR163 | 5158160 | - | 518 | 2.5
+* At5g15810.1 | MIR163 | MIR163 | 5158160 | - | 359 | 2.5
+* At5g35630.1 | MIR163 | MIR163 | 13847942 | - | 283 | 2.5
+* At5g38100.1 | MIR163 | MIR163 | 15217856 | - | 559 | 1.5
+* At5g61250.1 | MIR163 | MIR163 | 24651498 | + | 533 | 2.5
 
 ![mir163 targets](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/ef2e2121-7cf9-47eb-ae9f-19a731452ca7)
 
@@ -137,7 +274,9 @@ See paper: https://pubmed.ncbi.nlm.nih.gov/29244865/&#x20;
 1https://knetminer.com/beta/knetspace/network/910ae6a2-3ce9-4887-9039-c6ffd04a98eb
 {% endembed %}
 
-**mir167D**(Souce: https://www.mirbase.org/hairpin/MI0000975)  \_"Auxin, innate immune system and starvation stress response." \_
+**mir167D** [Source](https://www.mirbase.org/hairpin/MI0000975)
+
+Related to: Auxin, innate immune system, and starvation stress response.
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2e58314a-8cba-422b-b8f0-d5778ce718fe" alt=""><figcaption></figcaption></figure>
 
@@ -145,7 +284,9 @@ See paper: https://pubmed.ncbi.nlm.nih.gov/29244865/&#x20;
 
 **Target gene MicroRNA Family Position Relative orientation Relative distance psRNATarget score** At3g04765.1 MIR167D MIR167 1306638 - 149 1.5 At3g04765.1 MIR167D MIR167 1306756 + 31 1.5 At3g22886.1 MIR167D MIR167 8108097 + 69 0.0 At3g22886.1 MIR167D MIR167 8108176 - 148 2.0
 
-At3g22886 is mir167a. At3g04765 is mir167c.
+**At3g22886 is mir167a.**&#x20;
+
+**At3g04765 is mir167c.**
 
 **mir824A** Involved in flowering time and stomatal development.&#x20;
 
@@ -188,28 +329,72 @@ KmeansNclusters() #Number of clusters Kmeans.out = Kmeans() #Running K-means Kme
 
 ## **#Read gene sets for enrichment analysis**
 
-sqlite <- dbDriver('SQLite') input\_selectGO3 <- 'GOBP' #Gene set category input\_minSetSize <- 5 #Min gene set size input\_maxSetSize <- 2000 #Max gene set size GeneSets.out <-readGeneSets( geneSetFile, convertedData.out, input\_selectGO3,input\_selectOrg, c(input\_minSetSize, input\_maxSetSize) )
+## Gene Set Analysis and Visualization
 
-\#GeneSets.out <- readGMTRobust('somefile.GMT')\
-results <- KmeansGO() #Enrichment analysis for k-Means clusters results$adj.Pval <- format( results$adj.Pval,digits=3 ) kable( results, row.names=FALSE) input\_seedTSNE <- 0 #Random seed for t-SNE input\_colorGenes <- TRUE #Color genes in t-SNE plot? tSNEgenePlot() #Plot genes using t-SNE
+### Read Gene Sets
+
+```r
+GeneSets.out <- readGMTRobust('somefile.GMT')
+```
+
+### K-Means Clustering and Enrichment Analysis
+
+```r
+results <- KmeansGO()  # Perform enrichment analysis for k-Means clusters
+results$adj.Pval <- format(results$adj.Pval, digits=3)
+kable(results, row.names=FALSE)
+```
+
+### t-SNE Visualization for Genes
+
+```r
+input_seedTSNE <- 0  # Set random seed for t-SNE
+input_colorGenes <- TRUE  # Color genes in t-SNE plot
+tSNEgenePlot()  # Plot genes using t-SNE
+```
+
+### Database Connection
+
+```r
+sqlite <- dbDriver('SQLite')
+```
+
+### Read Gene Sets with Filters
+
+```r
+input_selectGO3 <- 'GOBP'  # Gene set category
+input_minSetSize <- 5  # Minimum gene set size
+input_maxSetSize <- 2000  # Maximum gene set size
+GeneSets.out <- readGeneSets(geneSetFile, convertedData.out, input_selectGO3, input_selectOrg, c(input_minSetSize, input_maxSetSize))
+```
 
 ## **5. PCA and beyond**
 
-input\_selectFactors <- 'Treatment' #Factor coded by color input\_selectFactors2 <- 'Treatment' #Factor coded by shape input\_tsneSeed2 <- 0 #Random seed for t-SNE #PCA, MDS and t-SNE plots PCAplot()\
-
+```markdown
+input_selectFactors <- 'Treatment' # Factor coded by color
+input_selectFactors2 <- 'Treatment' # Factor coded by shape
+input_tsneSeed2 <- 0 # Random seed for t-SNE
+# PCA, MDS, and t-SNE plots
+PCAplot()
+```
 
 <figure><img src=".gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src=".gitbook/assets/image (7).png" alt=""><figcaption><p>PCA SCREE plot</p></figcaption></figure>
 
-MDSplot()
-
-tSNEplot()
-
 ## **Read gene sets for pathway analysis using PGSEA on principal components**
 
-input\_selectGO6 <- 'All' #Gene set category GeneSets.out <-readGeneSets( geneSetFile, convertedData.out, input\_selectGO6,input\_selectOrg, c(input\_minSetSize, input\_maxSetSize) )\
-PCApathway() # Run PGSEA analysis cat( PCA2factor() ) #The correlation between PCs with factors
+````markdown
+```r
+input_selectGO6 <- 'All' # Select gene set category
+GeneSets.out <- readGeneSets(geneSetFile, convertedData.out, input_selectGO6, input_selectOrg, c(input_minSetSize, input_maxSetSize))
+
+PCApathway() # Run PGSEA analysis
+
+cat(PCA2factor()) # Display the correlation between PCs and factors
+````
+
+
 
 ## **6. DEG1**
 
@@ -221,44 +406,131 @@ limma.out <- limma() DEG.data.out <- DEG.data() limma.out$comparisons input\_sel
 
 ## **7. DEG2**
 
-input\_selectContrast <- 'Flight-Ground' #Selected comparisons selectedHeatmap.data.out <- selectedHeatmap.data() selectedHeatmap() # heatmap for DEGs in selected comparison
+```markdown
+`input_selectContrast <- 'Flight-Ground'` # Selected comparisons
+`selectedHeatmap.data.out <- selectedHeatmap.data()` # Generate data for the heatmap
+`selectedHeatmap()` # Generate heatmap for DEGs in the selected comparison
+```
 
 ## Save gene lists and data into files
 
-write.csv( selectedHeatmap.data()$genes, 'heatmap.data.csv') write.csv(DEG.data(),'DEG.data.csv' ) write(AllGeneListsGMT() ,'AllGeneListsGMT.gmt')
+input\_selectGO2 <- 'GOBP' # Gene set category
 
-input\_selectGO2 <- 'GOBP' #Gene set category geneListData.out <- geneListData()\
-**volcanoPlot()**&#x20;
+* `geneListData.out <- geneListData()`
+* `volcanoPlot()`
+* `write.csv(selectedHeatmap.data()$genes, 'heatmap.data.csv')`
+* `write.csv(DEG.data(), 'DEG.data.csv')`
+* `write(AllGeneListsGMT(), 'AllGeneListsGMT.gmt')`
 
 <figure><img src=".gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
 
-**scatterPlot()**&#x20;
+**`scatterPlot()`**&#x20;
 
 <figure><img src=".gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
 
-**MAplot()**&#x20;
+**`MAplot()`**&#x20;
 
 <figure><img src=".gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
 
-geneListGOTable.out <- geneListGOTable()
+`geneListGOTable.out <- geneListGOTable()`
 
 ## Genome ontology geneset enrichment analysis
 
-GeneSets.out <-readGeneSets( geneSetFile, convertedData.out, input\_selectGO2,input\_selectOrg, c(input\_minSetSize, input\_maxSetSize) ) input\_removeRedudantSets <- TRUE #Remove highly redundant gene sets? results <- geneListGO() #Enrichment analysis results$adj.Pval <- format( results$adj.Pval,digits=3 ) kable( results, row.names=FALSE)
+````markdown
+```R
+# Read gene sets
+GeneSets.out <- readGeneSets(geneSetFile, convertedData.out, input_selectGO2, input_selectOrg, c(input_minSetSize, input_maxSetSize))
+
+# Option to remove highly redundant gene sets
+input_removeRedundantSets <- TRUE
+
+# Perform enrichment analysis
+results <- geneListGO()
+
+# Format adjusted p-values
+results$adj.Pval <- format(results$adj.Pval, digits=3)
+
+# Display results
+kable(results, row.names = FALSE)
+````
 
 <figure><img src=".gitbook/assets/image (11).png" alt=""><figcaption><p>Defence cluster</p></figcaption></figure>
 
 **Enrichment analysis using (STRING and metascape protein interaction networks analysis IS NOT INCLUDED)**
 
-STRINGdb\_geneList.out <- STRINGdb\_geneList() #convert gene lists input\_STRINGdbGO <- 'Process' #'Process', 'Component', 'Function', 'KEGG', 'Pfam', 'InterPro' results <- stringDB\_GO\_enrichmentData() # enrichment using STRING results$adj.Pval <- format( results$adj.Pval,digits=3 ) kable( results, row.names=FALSE) PPI network retrieval and analysis
+### Protein-Protein Interaction (PPI) Analysis using STRING-db
 
-input\_nGenesPPI <- 100 #Number of top genes for PPI retrieval and analysis stringDB\_network1(1) #Show PPI network Generating interactive PPI
+```r
+write(stringDB_network_link(), 'PPI_results.html')  # Save results to an HTML file
+browseURL('PPI_results.html')  # Open the results in a web browser
+```
 
-write(stringDB\_network\_link(), 'PPI\_results.html') # write results to html file browseURL('PPI\_results.html') # open in browser
+#### Parameters
+
+*   **input\_nGenesPPI**: Number of top genes for PPI retrieval and analysis.
+
+    ```r
+    input_nGenesPPI <- 100
+    ```
+
+#### Generating PPI Network
+
+Display the PPI network:
+
+```r
+stringDB_network1(1)  # Show PPI network
+```
+
+Generate interactive PPI network:
+
+```r
+STRINGdb_geneList.out <- STRINGdb_geneList()  # Convert gene lists
+input_STRINGdbGO <- 'Process'  # Options: 'Process', 'Component', 'Function', 'KEGG', 'Pfam', 'InterPro'
+results <- stringDB_GO_enrichmentData()  # Enrichment analysis using STRING-db
+results$adj.Pval <- format(results$adj.Pval, digits=3)
+kable(results, row.names=FALSE)  # Create a table of results
+```
 
 
 
-**8. Pathway analysis** input\_selectContrast1 <- 'Flight-Ground' #select Comparison #input\_selectContrast1 = limma.out$comparisons\[3] # manually set input\_selectGO <- 'KEGG' #Gene set category #input\_selectGO='custom' # if custom gmt file input\_minSetSize <- 5 #Min size for gene set input\_maxSetSize <- 2000 #Max size for gene set
+**8. Pathway analysis**&#x20;
+
+`input_selectContrast1 <- 'Flight-Ground' #select Comparison`&#x20;
+
+\#input\_selectContrast1 = limma.out$comparisons\[3]&#x20;
+
+`manually set input_selectGO <- 'KEGG'`&#x20;
+
+\#Gene set category&#x20;
+
+\#input\_selectGO='custom'&#x20;
+
+## Read pathway data again
+
+### Pathway Analysis Methods
+
+#### Pathway Method: fgsea
+
+1.  Import fgsea pathway data:
+
+    ```r
+    fgseaPathwayData.out <- fgseaPathwayData()
+    ```
+2.  Perform enrichment analysis for k-Means clusters and format results:
+
+    ```r
+    results <- fgseaPathwayData.out
+    results$adj.Pval <- format(results$adj.Pval, digits=3)
+    kable(results, row.names=FALSE)
+    ```
+3.  Visualize pathway analysis:
+
+    ```r
+    pathwayListData.out = pathwayListData()
+    enrichmentPlot(pathwayListData.out, 25)
+    enrichmentNetwork(pathwayListData.out)
+    enrichmentNetworkPlotly(pathwayListData.out)
+    ```
 
 ## Down regulated Biological Pathway Genome Ontology&#x20;
 
@@ -268,45 +540,142 @@ write(stringDB\_network\_link(), 'PPI\_results.html') # write results to html fi
 
 <figure><img src=".gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 
-## Read pathway data again
+## aa
 
-GeneSets.out <-readGeneSets( geneSetFile, convertedData.out, input\_selectGO,input\_selectOrg, c(input\_minSetSize, input\_maxSetSize) ) input\_pathwayPvalCutoff <- 0.2 #FDR cutoff input\_nPathwayShow <- 30 #Top pathways to show input\_absoluteFold <- FALSE #Use absolute values of fold-change? input\_GenePvalCutoff <- 1 #FDR to remove genes
+#### Pathway Method: PGSEA
 
-input\_pathwayMethod = 1 # 1 GAGE gagePathwayData.out <- gagePathwayData() # pathway analysis using GAGE
+1.  Import PGSEA pathway data:
 
-results <- gagePathwayData.out #Enrichment analysis for k-Means clusters results$adj.Pval <- format( results$adj.Pval,digits=3 ) kable( results, row.names=FALSE) pathwayListData.out = pathwayListData() enrichmentPlot(pathwayListData.out, 25 ) enrichmentNetwork(pathwayListData.out )\
-enrichmentNetworkPlotly(pathwayListData.out)
+    ```r
+    gagePathwayData.out <- gagePathwayData()
+    ```
+2.  Perform enrichment analysis for k-Means clusters and format results:
 
-input\_pathwayMethod = 3 # 1 fgsea fgseaPathwayData.out <- fgseaPathwayData() #Pathway analysis using fgsea results <- fgseaPathwayData.out #Enrichment analysis for k-Means clusters results$adj.Pval <- format( results$adj.Pval,digits=3 ) kable( results, row.names=FALSE) pathwayListData.out = pathwayListData() enrichmentPlot(pathwayListData.out, 25 ) enrichmentNetwork(pathwayListData.out )\
-enrichmentNetworkPlotly(pathwayListData.out) PGSEAplot() # pathway analysis using PGSEA
+    ```r
+    results <- gagePathwayData.out
+    results$adj.Pval <- format(results$adj.Pval, digits=3)
+    kable(results, row.names=FALSE)
+    ```
+3.  Visualize pathway analysis:
+
+    ```r
+    pathwayListData.out = pathwayListData()
+    enrichmentPlot(pathwayListData.out, 25)
+    enrichmentNetwork(pathwayListData.out)
+    enrichmentNetworkPlotly(pathwayListData.out)
+    ```
 
 <figure><img src=".gitbook/assets/image (14).png" alt=""><figcaption><p>BRIC-LED shoot RNAseq FL vs GC secondary metabolism </p></figcaption></figure>
 
-**9. Chromosome** input\_selectContrast2 <- 'Flight-Ground' #select Comparison #input\_selectContrast2 = limma.out$comparisons\[3] # manually set input\_limmaPvalViz <- 0.1 #FDR to filter genes input\_limmaFCViz <- 2 #FDR to filter genes genomePlotly() # shows fold-changes on the genome
+#### Pathway Method: GAGE
 
-<figure><img src=".gitbook/assets/image (15).png" alt=""><figcaption><p>Chromosomal Enrichment </p></figcaption></figure>
+1.  Import GAGE pathway data:
 
-**10. Biclustering** input\_nGenesBiclust <- 1000 #Top genes for biclustering input\_biclustMethod <- 'BCCC()' #Method: 'BCCC', 'QUBIC', 'runibic' ... biclustering.out = biclustering() # run analysis input\_selectBicluster <- 1 #select a cluster biclustHeatmap() # heatmap for selected cluster input\_selectGO4 <- 'GOBP' #Gene set category
+    ```r
+    gagePathwayData.out <- gagePathwayData()
+    ```
+2.  Perform pathway analysis using GAGE:
+
+    ```r
+    GeneSets.out <- readGeneSets(geneSetFile, convertedData.out, input_selectGO, input_selectOrg, c(input_minSetSize, input_maxSetSize))
+    ```
+3.  Set pathway analysis parameters:
+
+    ```r
+    input_pathwayPvalCutoff <- 0.2 # FDR cutoff
+    input_nPathwayShow <- 30 # Top pathways to show
+    input_absoluteFold <- FALSE # Use absolute values of fold-change?
+    input_GenePvalCutoff <- 1 # FDR to remove genes
+    ```
 
 **ER cluster plotted using KEGG path view**&#x20;
 
 <figure><img src=".gitbook/assets/image (16).png" alt=""><figcaption><p>KEGG pathview</p></figcaption></figure>
 
+
+
+### **9. Chromosome**  enrichment analysis&#x20;
+
+#### Chromosomal region expression enrichment analysis&#x20;
+
+* **Comparison**: `Flight-Ground`
+* **FDR for Filtering Genes**:
+  * P-value threshold: `0.1`
+  * Fold-change threshold: `2`
+
+**Command to Visualize Data**:
+
+```R
+genomePlotly() # Displays fold-changes on the genome
+```
+
+<figure><img src=".gitbook/assets/image (15).png" alt=""><figcaption><p>Chromosomal Enrichment </p></figcaption></figure>
+
+**10. Biclustering**&#x20;
+
+#### Biclustering Gene Analysis
+
+* **Number of Genes for Biclustering**: 1000
+* **Biclustering Method**: `BCCC()`
+*   **Run Biclustering Analysis**:
+
+    ```R
+    biclustering.out = biclustering()
+    ```
+* **Select Bicluster**: 1
+*   **Generate Heatmap for Selected Cluster**:
+
+    ```R
+    biclustHeatmap()
+    ```
+* **Gene Set Category**: `GOBP`
+
+Ensure you have the appropriate setup and dependencies before running the analysis.
+
+
+
 ## WGCNA Read pathway data again
 
-GeneSets.out <-readGeneSets( geneSetFile, convertedData.out, input\_selectGO4,input\_selectOrg, c(input\_minSetSize, input\_maxSetSize) )\
-results <- geneListBclustGO() #Enrichment analysis for k-Means clusters results$adj.Pval <- format( results$adj.Pval,digits=3 ) kable( results, row.names=FALSE)
+`GeneSets.out <- readGeneSets(geneSetFile, convertedData.out, input_selectGO4, input_selectOrg, c(input_minSetSize, input_maxSetSize))`
 
-**11. Co-expression network** input\_mySoftPower <- 8 #SoftPower to cutoff input\_nGenesNetwork <- 1000 #Number of top genes input\_minModuleSize <- 20 #Module size minimum wgcna.out = wgcna() # run WGCNA\
-softPower() # soft power curve
+`results <- geneListBclustGO() # Enrichment analysis for k-Means clusters`
+
+`results$adj.Pval <- format(results$adj.Pval, digits=3)`
+
+`kable(results, row.names=FALSE)`
+
+
+
+### **11. Co-expression network**&#x20;
+
+````markdown
+### WGCNA Configuration
+
+- **Soft Power Threshold:** 8
+- **Top Genes in Network:** 1000
+- **Minimum Module Size:** 20
+
+### Commands
+Run WGCNA analysis:
+```R
+wgcna.out = wgcna()
+````
+
+Generate soft power curve:
+
+```R
+softPower()
+```
 
 ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/4d41b80a-9a44-4f0c-8e81-854e27797bc1)
 
-modulePlot() # plot modules
+`modulePlot() # plot modules`
 
 ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/a3568faf-b88f-41c6-ab9f-aa14f053b534)
 
-listWGCNA.Modules.out = listWGCNA.Modules() #modules
+`listWGCNA.Modules.out` is initialized with the `listWGCNA.Modules()`&#x20;
+
+\#This function to create WGCNA modules that contain loci with similar function and similar expression changes.
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
 
@@ -314,7 +683,7 @@ listWGCNA.Modules.out = listWGCNA.Modules() #modules
 
 ## Now analyse each of the cluster with GO biological processes
 
-input\_selectGO5 <- 'GOBP' #Gene set category
+`input_selectGO5 <- 'GOBP' #Gene set category`
 
 ***
 
@@ -336,11 +705,11 @@ input\_selectGO5 <- 'GOBP' #Gene set category
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
-&#x20;Turquoise cluster &#x20;
+&#x20;`Turquoise cluster` &#x20;
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/1f402517-2520-4b5c-bfcd-37f4a9ad11f4" alt=""><figcaption></figcaption></figure>
 
-Turquoise cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
+`Turquoise cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/d86f5982-8d8c-4c02-8bbd-0f4b848c2764" alt=""><figcaption></figcaption></figure>
 
@@ -352,7 +721,7 @@ Turquoise cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 &#x20;Blue Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/77c3b2ac-1058-4253-8782-6d5cf9350313)&#x20;
 
-Blue Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
+`Blue Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/7a9a8c80-f217-49fb-8b31-08903c930aa6" alt=""><figcaption></figcaption></figure>
 
@@ -364,7 +733,7 @@ Blue Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 &#x20;Brown Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/54144c7d-3045-43b5-9494-9d9b5b064a6d)&#x20;
 
-Brown Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
+`Brown Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/5fc748a3-8574-4503-85e3-64b1def2e1ae" alt=""><figcaption></figcaption></figure>
 
@@ -376,7 +745,7 @@ Brown Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 &#x20;Yellow Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/5e9e21e7-f8e9-4cae-80d1-f0bb5bd13975)&#x20;
 
-Yellow Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
+`Yellow Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/11566678-1fd9-4b9a-98c2-83ba21ffc618" alt=""><figcaption></figcaption></figure>
 
@@ -388,7 +757,7 @@ Yellow Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 **Green Cluster** ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/543de251-0c67-45c5-8286-e497603ba2ae)&#x20;
 
-Green Cluster  -> input\_selectGO <- 'GOBP' #Gene set category and plot
+`Green Cluster  -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/57fa511c-59e4-4cc8-bbb4-f07252644808" alt=""><figcaption></figcaption></figure>
 
@@ -400,7 +769,7 @@ Green Cluster  -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 &#x20;Red Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/cdec91a9-f679-40fe-8440-f9450f3e17f9)&#x20;
 
-Red Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
+`Red Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/6714e93e-2adf-4e36-9d58-fdf5f88ba139" alt=""><figcaption></figcaption></figure>
 
@@ -412,7 +781,7 @@ Red Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 &#x20;Black Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/e56c8237-22b3-4372-96b9-eb35547cce33)&#x20;
 
-**Black Cluster** -> input\_selectGO <- 'GOBP' #Gene set category and plot
+**`Black Cluster`**` ``-> input_selectGO <- 'GOBP' #Gene set category and plot`
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/fbfdac31-fbdd-457d-852e-2fc2594ed40c" alt=""><figcaption></figcaption></figure>
 
@@ -424,7 +793,7 @@ Red Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 &#x20;Pink Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/696e9cbc-5d31-4da0-9856-640c69d8e8d2)&#x20;
 
-Pink Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
+`Pink Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/69b4a020-647a-4ee9-a73e-2f18b7202a12" alt=""><figcaption></figcaption></figure>
 
@@ -436,7 +805,7 @@ Pink Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 &#x20;Magenta Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/eeace972-e12a-4b35-8d28-372f3ffebe48)&#x20;
 
-Magenta Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
+`Magenta Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/a7e0c359-f2f6-4182-8b70-8895bf03ab41" alt=""><figcaption></figcaption></figure>
 
@@ -448,7 +817,7 @@ Magenta Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 &#x20;Purple Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/f45c06dc-7ed3-4d98-90f7-b0e6d11b10b1)&#x20;
 
-Purple Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
+`Purple Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/6fe0db9f-cb4b-4f78-a7c2-5cc5c52db3e4" alt=""><figcaption></figcaption></figure>
 
@@ -460,7 +829,7 @@ Purple Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 &#x20;Green/yellow ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/86691381-17db-4076-af4d-63f9b3602705)&#x20;
 
-Green/yellow -> input\_selectGO <- 'GOBP' #Gene set category and plot
+`Green/yellow -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/b2d09632-7895-45f5-992a-9ea5a6f0b7d6" alt=""><figcaption></figcaption></figure>
 
@@ -468,6 +837,47 @@ Green/yellow -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 ## Read pathway data again
 
-GeneSets.out <-readGeneSets( geneSetFile, convertedData.out, input\_selectGO5,input\_selectOrg, c(input\_minSetSize, input\_maxSetSize) ) input\_selectWGCNA.Module <- '1. turquoise (255 genes)' #Select a module input\_topGenesNetwork <- 10 #SoftPower to cutoff input\_edgeThreshold <- 0.4 #Number of top genes moduleNetwork() # show network of top genes in selected module
+### Gene Set Analysis
 
-input\_removeRedudantSets <- TRUE #Remove redundant gene sets results <- networkModuleGO() #Enrichment analysis of selected module results$adj.Pval <- format( results$adj.Pval,digits=3 ) kable( results, row.names=FALSE)
+#### Remove Redundant Gene Sets
+
+```R
+input_removeRedundantSets <- TRUE # Remove redundant gene sets
+```
+
+#### Enrichment Analysis
+
+```R
+results <- networkModuleGO() # Enrichment analysis of selected module
+results$adj.Pval <- format(results$adj.Pval, digits=3)
+kable(results, row.names=FALSE)
+```
+
+#### Read Gene Sets
+
+```R
+GeneSets.out <- readGeneSets(geneSetFile, convertedData.out, input_selectGO5, input_selectOrg, c(input_minSetSize, input_maxSetSize))
+```
+
+#### Select a Module
+
+```R
+input_selectWGCNA.Module <- '1. turquoise (255 genes)' # Select a module
+```
+
+#### Network Module Configuration
+
+```R
+input_topGenesNetwork <- 10 # Soft power cutoff
+input_edgeThreshold <- 0.4 # Edge threshold
+```
+
+#### Display Network of Top Genes
+
+```R
+moduleNetwork() # Show network of top genes in selected module
+```
+
+**All table listing all the genes in the WGCNA can be found in our github repo.**&#x20;
+
+**Thanks for reading.**&#x20;
