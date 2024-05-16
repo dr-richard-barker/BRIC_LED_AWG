@@ -318,7 +318,7 @@ input\_selectGO5 <- 'GOBP' #Gene set category
 
 ***
 
-**Entire WSGNCA network summary**
+### **Entire WSGNCA network summary**
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
 
@@ -406,7 +406,7 @@ Red Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 ***
 
-**Black Cluster (58)**
+### **Black Cluster (58)**
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
@@ -418,7 +418,7 @@ Red Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 ***
 
-**Pink Cluster**
+### **Pink Cluster (XX)**
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
@@ -430,7 +430,7 @@ Pink Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 ***
 
-**Magenta Cluster (52)**
+### **Magenta Cluster (52)**
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
@@ -442,7 +442,7 @@ Magenta Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 ***
 
-**Purple Cluster (50)**
+### **Purple Cluster (50)**
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
@@ -454,7 +454,7 @@ Purple Cluster -> input\_selectGO <- 'GOBP' #Gene set category and plot
 
 ***
 
-**Green/yellow (24 genes)**
+### **Green/yellow (24 genes)**
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
