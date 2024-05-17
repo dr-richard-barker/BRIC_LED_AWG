@@ -116,9 +116,13 @@ input_countsLogStart <- 4 # Pseudo count for log CPM
 input_CountsTransform <- 1 # Methods for data transformation (1- EdgeR's logCPM, 2- VST, 3- rlog)
 ````
 
-**2. Pre-process**
+## **2. Pre-process**
 
-**The remaining 36 genes retained their original IDs.** **From 18108 genes, 18072 were successfully converted to Ensembl gene IDs in our database.** \*\*Total genes: 32833 across 12 samples.
+**The remaining 36 genes retained their original IDs.**&#x20;
+
+**From 18108 genes, 18072 were successfully converted to Ensembl gene IDs in our database.**&#x20;
+
+**Total genes: 32833 across 12 samples.**
 
 ## Read counts per library
 
@@ -357,26 +361,77 @@ plot(as.dendrogram(hclust2(dist2(t(x)))), ylab="1 - Pearson C.C.", type = "recta
 
 ## Parameters for heatmap
 
-input\_nGenes <- 300 #Top genes for heatmap input\_geneCentering <- TRUE #centering genes ? input\_sampleCentering <- FALSE #Center by sample? input\_geneNormalize <- TRUE #Normalize by gene? input\_sampleNormalize <- FALSE #Normalize by sample? input\_noSampleClustering <- FALSE #Use original sample order input\_heatmapCutoff <- 4 #Remove outliers beyond number of SDs input\_distFunctions <- 1 #which distant function to use input\_hclustFunctions <- 1 #Linkage type input\_heatColors1 <- 2 #Colors input\_selectFactorsHeatmap <- 'Treatment' #Sample coloring factors png('heatmap.png', width = 10, height = 15, units = 'in', res = 300) staticHeatmap() dev.off()\
-!\[heatmap] (heatmap.png)
+* **input\_nGenes**: 300 (Top genes for heatmap)
+* **input\_geneCentering**: TRUE (Center genes)
+* **input\_sampleCentering**: FALSE (Center by sample)
+* **input\_geneNormalize**: TRUE (Normalize by gene)
+* **input\_sampleNormalize**: FALSE (Normalize by sample)
+* **input\_noSampleClustering**: FALSE (Use original sample order)
+* **input\_heatmapCutoff**: 4 (Remove outliers beyond number of SDs)
+* **input\_distFunctions**: 1 (Distance function)
+* **input\_hclustFunctions**: 1 (Linkage type)
+* **input\_heatColors1**: 2 (Colors)
+* **input\_selectFactorsHeatmap**: 'Treatment' (Sample coloring factors)
+
+```r
+png('heatmap.png', width = 10, height = 15, units = 'in', res = 300)
+staticHeatmap()
+dev.off()
+```
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 ## **4. K-means clustering**
 
-input\_nGenesKNN <- 2000 #Number of genes fro k-Means input\_nClusters <- 4 #Number of clusters maxGeneClustering = 12000 input\_kmeansNormalization <- 'geneMean' #Normalization input\_KmeansReRun <- 0 #Random seed distributionSD() #Distribution of standard deviations
+#### K-Means Clustering
+
+#### k-Means Clustering Parameters
+
+* **Number of genes for k-Means:** 2000
+* **Number of clusters:** 4
+* **Maximum genes for clustering:** 12000
+* **Normalization method:** geneMean
+* **Random seed (k-Means re-run):** 0
+
+**Number of Clusters**
+
+```python
+KmeansNclusters() 
+```
+
+Determine the number of clusters for K-means.
+
+**Running K-Means**
+
+```python
+Kmeans.out = Kmeans()
+```
+
+Execute the K-means clustering algorithm.
+
+**Heatmap for K-Means**
+
+```python
+KmeansHeatmap()
+```
+
+Generate a heatmap for the K-means clustering results.
+
+<figure><img src=".gitbook/assets/image (5).png" alt=""><figcaption><p>heat map ER cluster</p></figcaption></figure>
+
+####
+
+#### Additional Parameters
+
+* \*\*Standard Deviation Distribution
 
 <figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
 
 
-KmeansNclusters() #Number of clusters Kmeans.out = Kmeans() #Running K-means KmeansHeatmap() #Heatmap for k-Means
 
-<figure><img src=".gitbook/assets/image (5).png" alt=""><figcaption><p>heat map ER cluster</p></figcaption></figure>
 
-## **#Read gene sets for enrichment analysis**
-
-## Gene Set Analysis and Visualization
+## **#** Gene Set **enrichment analysis** and Visualization
 
 ### Read Gene Sets
 
@@ -445,9 +500,19 @@ cat(PCA2factor()) # Display the correlation between PCs and factors
 
 ## **6. DEG1**
 
-input\_CountsDEGMethod <- 3 #DESeq2= 3 input\_limmaPval <- 0.1 #FDR cutoff input\_limmaFC <- 2 #Fold-change cutoff input\_selectModelComprions <- 'Treatment: Flight vs. Ground' #Selected comparisons input\_selectFactorsModel <- 'Treatment' #Selected comparisons input\_selectInteractions <- NULL #Selected comparisons input\_selectBlockFactorsModel <- NULL #Selected comparisons factorReferenceLevels.out <- c('Treatment:Flight')
+## Input Parameters
 
-limma.out <- limma() DEG.data.out <- DEG.data() limma.out$comparisons input\_selectComparisonsVenn = limma.out$comparisons\[1:3] # use first three comparisons input\_UpDownRegulated <- FALSE #Split up and down regulated genes vennPlot() # Venn diagram sigGeneStats() # number of DEGs as figure sigGeneStatsTable() # number of DEGs as table
+* **Counts DEG Method**: 3 (DESeq2)
+* **P-value Cutoff**: 0.1 (FDR cutoff)
+* **Fold-change Cutoff**: 2
+* **Selected Comparisons**:
+  * Comparisons: `Treatment: Flight vs. Ground`
+  * Factors Model: `Treatment`
+* **Interactions**: None
+* **Block Factors Model**: None
+* \*\*Factor Reference Levels
+
+**# number of DEGs as figure sigGeneStatsTable() # number of DEGs as table**
 
 ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/56e7f5d2-3d02-4dbf-9415-2c1f53a8fb4f)
 
@@ -479,8 +544,6 @@ input\_selectGO2 <- 'GOBP' # Gene set category
 
 <figure><img src=".gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
 
-`geneListGOTable.out <- geneListGOTable()`
-
 ## Genome ontology geneset enrichment analysis
 
 ````markdown
@@ -501,6 +564,8 @@ results$adj.Pval <- format(results$adj.Pval, digits=3)
 kable(results, row.names = FALSE)
 ````
 
+`geneListGOTable.out <- geneListGOTable()`
+
 <figure><img src=".gitbook/assets/image (11).png" alt=""><figcaption><p>Defence cluster</p></figcaption></figure>
 
 **Enrichment analysis using (STRING and metascape protein interaction networks analysis IS NOT INCLUDED)**
@@ -514,21 +579,17 @@ browseURL('PPI_results.html')  # Open the results in a web browser
 
 #### Parameters
 
-*   **input\_nGenesPPI**: Number of top genes for PPI retrieval and analysis.
+**input\_nGenesPPI**: Number of top genes for PPI retrieval and analysis.
 
-    ```r
-    input_nGenesPPI <- 100
-    ```
+```r
+input_nGenesPPI <- 100
+```
 
-#### Generating PPI Network
-
-Display the PPI network:
+#### Generate and display PPI Network:  Generate interactive PPI network:&#x20;
 
 ```r
 stringDB_network1(1)  # Show PPI network
 ```
-
-Generate interactive PPI network:
 
 ```r
 STRINGdb_geneList.out <- STRINGdb_geneList()  # Convert gene lists
@@ -538,9 +599,11 @@ results$adj.Pval <- format(results$adj.Pval, digits=3)
 kable(results, row.names=FALSE)  # Create a table of results
 ```
 
+More information coming soon...
 
+{% embed url="https://string-db.org/cgi/input?sessionId=ZrWvDHmmyh3N&input_page_active_form=multiple_identifiers" %}
 
-**8. Pathway analysis**&#x20;
+## **8. Pathway analysis**&#x20;
 
 `input_selectContrast1 <- 'Flight-Ground' #select Comparison`&#x20;
 
@@ -579,17 +642,17 @@ kable(results, row.names=FALSE)  # Create a table of results
     enrichmentNetworkPlotly(pathwayListData.out)
     ```
 
-## Down regulated Biological Pathway Genome Ontology&#x20;
+## Down-regulated Biological Pathway Genome Ontology&#x20;
 
 <figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
 
-## Up regulated Biological Pathway Genome Ontology
+## Up-regulated Biological Pathway Genome Ontology
 
 <figure><img src=".gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 
-## aa
 
-#### Pathway Method: PGSEA
+
+### Pathway Method: PGSEA
 
 1.  Import PGSEA pathway data:
 
@@ -614,7 +677,7 @@ kable(results, row.names=FALSE)  # Create a table of results
 
 <figure><img src=".gitbook/assets/image (14).png" alt=""><figcaption><p>BRIC-LED shoot RNAseq FL vs GC secondary metabolism </p></figcaption></figure>
 
-#### Pathway Method: GAGE
+### Pathway Method: GAGE
 
 1.  Import GAGE pathway data:
 
@@ -641,7 +704,7 @@ kable(results, row.names=FALSE)  # Create a table of results
 
 
 
-### **9. Chromosome**  enrichment analysis&#x20;
+## **9. Chromosome**  enrichment analysis&#x20;
 
 #### Chromosomal region expression enrichment analysis&#x20;
 
@@ -658,7 +721,7 @@ genomePlotly() # Displays fold-changes on the genome
 
 <figure><img src=".gitbook/assets/image (15).png" alt=""><figcaption><p>Chromosomal Enrichment </p></figcaption></figure>
 
-**10. Biclustering**&#x20;
+### **10. Biclustering**&#x20;
 
 #### Biclustering Gene Analysis
 
@@ -677,11 +740,13 @@ genomePlotly() # Displays fold-changes on the genome
     ```
 * **Gene Set Category**: `GOBP`
 
-Ensure you have the appropriate setup and dependencies before running the analysis.
+
+
+_**Note:** Graphs are not included as they were deemed unnecessary; the WGCNA captured most data features. See below for more details._
 
 
 
-## WGCNA Read pathway data again
+### Read pathway data again
 
 `GeneSets.out <- readGeneSets(geneSetFile, convertedData.out, input_selectGO4, input_selectOrg, c(input_minSetSize, input_maxSetSize))`
 
@@ -722,23 +787,23 @@ softPower()
 
 `listWGCNA.Modules.out` is initialized with the `listWGCNA.Modules()`&#x20;
 
-\#This function to create WGCNA modules that contain loci with similar function and similar expression changes.
+This function creates WGCNA modules containing loci with ontology group and similar expression changes in the experimental data.
 
 ![WGGNCA](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
 
 ***
 
-## Now analyse each of the cluster with GO biological processes
+### Now analyse each of the cluster with GO biological processes
 
 `input_selectGO5 <- 'GOBP' #Gene set category`
 
 ***
 
-### **Entire WSGNCA network summary**
+## **Entire WSGNCA network summary as dendrogram of biological processes.**&#x20;
 
-![WGGNCA](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
+![WGNCA](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153)
 
-![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/44b44f50-10a7-4e3d-8b6c-6021173c1a43)
+![Dendrogram summarizing biological processes enrcihmed within the WGNCA](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/44b44f50-10a7-4e3d-8b6c-6021173c1a43)
 
 ![\*\*Biological process analysis and visulisation for specific clusters \*\*age](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/75fdadd8-06d7-4456-a3c1-02c37d61b9ac)
 
@@ -766,7 +831,9 @@ softPower()
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
-&#x20;Blue Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/77c3b2ac-1058-4253-8782-6d5cf9350313)&#x20;
+&#x20;Blue Cluster &#x20;
+
+<figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/77c3b2ac-1058-4253-8782-6d5cf9350313" alt=""><figcaption></figcaption></figure>
 
 `Blue Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
@@ -778,7 +845,9 @@ softPower()
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
-&#x20;Brown Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/54144c7d-3045-43b5-9494-9d9b5b064a6d)&#x20;
+&#x20;Brown Cluster &#x20;
+
+<figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/54144c7d-3045-43b5-9494-9d9b5b064a6d" alt=""><figcaption></figcaption></figure>
 
 `Brown Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
@@ -790,7 +859,9 @@ softPower()
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
-&#x20;Yellow Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/5e9e21e7-f8e9-4cae-80d1-f0bb5bd13975)&#x20;
+&#x20;Yellow Cluster &#x20;
+
+<figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/5e9e21e7-f8e9-4cae-80d1-f0bb5bd13975" alt=""><figcaption></figcaption></figure>
 
 `Yellow Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
@@ -802,7 +873,9 @@ softPower()
 
 **Green Cluster (63)**
 
-**Green Cluster** ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/543de251-0c67-45c5-8286-e497603ba2ae)&#x20;
+**Green Cluster** &#x20;
+
+<figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/543de251-0c67-45c5-8286-e497603ba2ae" alt=""><figcaption></figcaption></figure>
 
 `Green Cluster  -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
@@ -814,7 +887,9 @@ softPower()
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
-&#x20;Red Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/cdec91a9-f679-40fe-8440-f9450f3e17f9)&#x20;
+&#x20;Red Cluster &#x20;
+
+<figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/cdec91a9-f679-40fe-8440-f9450f3e17f9" alt=""><figcaption></figcaption></figure>
 
 `Red Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
@@ -826,7 +901,9 @@ softPower()
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
-&#x20;Black Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/e56c8237-22b3-4372-96b9-eb35547cce33)&#x20;
+&#x20;Black Cluster &#x20;
+
+<figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/e56c8237-22b3-4372-96b9-eb35547cce33" alt=""><figcaption></figcaption></figure>
 
 **`Black Cluster`**` ``-> input_selectGO <- 'GOBP' #Gene set category and plot`
 
@@ -838,7 +915,9 @@ softPower()
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2beae4ca-dd03-4ba3-b076-16c4891d1153" alt="" width="375"><figcaption></figcaption></figure>
 
-&#x20;Pink Cluster ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/696e9cbc-5d31-4da0-9856-640c69d8e8d2)&#x20;
+&#x20;Pink Cluster &#x20;
+
+<figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/696e9cbc-5d31-4da0-9856-640c69d8e8d2" alt=""><figcaption></figcaption></figure>
 
 `Pink Cluster -> input_selectGO <- 'GOBP' #Gene set category and plot`
 
@@ -925,6 +1004,6 @@ input_edgeThreshold <- 0.4 # Edge threshold
 moduleNetwork() # Show network of top genes in selected module
 ```
 
-**All table listing all the genes in the WGCNA can be found in our github repo.**&#x20;
+**Table listing all the genes and summary statics generated by the WGCNA analysis can be found in our github repo.**&#x20;
 
 **Thanks for reading.**&#x20;
