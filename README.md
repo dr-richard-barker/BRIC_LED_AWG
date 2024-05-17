@@ -223,7 +223,7 @@ plot(x[,1:2], xlab=colnames(x)[1], ylab=colnames(x)[2], main='Scatter plot of fi
 
 ![image](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/19de2300-fb7b-42fe-92ba-29b4405d2f15)
 
-All mitochondrial genes and BAG6&#x20;
+### All mitochondrial genes and BAG6&#x20;
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/45e4a787-d89a-4d10-8657-fe5f8a24f717" alt=""><figcaption></figcaption></figure>
 
@@ -237,7 +237,7 @@ All mitochondrial genes and BAG6&#x20;
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/025b8a91-d9b8-4741-b261-62e5d4d54eca" alt=""><figcaption></figcaption></figure>
 
-"miR163 and its targets act in concert to modulate defense responses against bacterial pathogen in A. thaliana." (Ref https://pubmed.ncbi.nlm.nih.gov/28401908/).
+#### "miR163 and its targets act in concert to modulate defense responses against bacterial pathogen in _A. thaliana_." (Ref https://pubmed.ncbi.nlm.nih.gov/28401908/).
 
 
 
@@ -251,7 +251,7 @@ All mitochondrial genes and BAG6&#x20;
 
 ![genemap](https://github.com/dr-richard-barker/BRIC\_LED\_AWG/assets/8679982/064b85b0-66b5-42f3-9782-a1d61b80b7f1)
 
-**MIR163 Target Gene Search parameters**
+### **MIR163 Target Gene Search parameters**
 
 Upstream region: 0\
 Downstream region: 1000\
@@ -296,7 +296,7 @@ Related to: Auxin, innate immune system, and starvation stress response.
 
 <figure><img src="https://github.com/dr-richard-barker/BRIC_LED_AWG/assets/8679982/2e58314a-8cba-422b-b8f0-d5778ce718fe" alt=""><figcaption></figcaption></figure>
 
-**mir167D Target gene search parameter:**&#x20;
+### **mir167D Target gene search parameter:**&#x20;
 
 **Predicted Small RNA-Regulated Genes**
 
@@ -323,7 +323,7 @@ Related to: Auxin, innate immune system, and starvation stress response.
 
 
 
-### microRNA Target search p**arameters**:
+### MIR824 microRNA Target search p**arameters**:
 
 * Upstream region: 0
 * Downstream region: 1000
