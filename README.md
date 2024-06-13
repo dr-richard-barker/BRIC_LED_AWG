@@ -6,6 +6,10 @@
 
 <figure><img src=".gitbook/assets/image.png" alt="" width="375"><figcaption></figcaption></figure>
 
+**Insert / create graphical abstract to show mission stages forthe flight vs ground groups.**&#x20;
+
+
+
 **Samples**
 
 Factors matrix sourced from NASA Open Science Repository sample metadata. Counts matrix derived from NASA GeneLab pipeline data products. FASTQ files processed via the NASA GeneLab pipeline. \*\*Wild-type Arabidopsis Col-0, shoots isolated for RNA sequencing.
