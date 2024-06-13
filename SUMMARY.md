@@ -1,3 +1,4 @@
 # Table of contents
 
-* [BRIC LED technology demonstration](README.md)
+* [Project management page.](README.md)
+* [BRIC LED technology demonstration](<README (1).md>)
